@@ -25,10 +25,11 @@ class Sand:
                     dy = other.y - self.y
                     dz = other.z - self.z # 位置差
                     dist = np.sqrt(dx**2+dy**2+dz**2) # 勾股定理，+1防止/0
-                    if dist < 50: # 检测碰撞
-                        ax += other.vx / dist * other.m
-                        ay += other.vy / dist * other.m
-                        az += other.vz / dist * other.m # 计算加速度
+                    if dist < 3: # 检测碰撞
+                        # 计算加速度
+                        ax += other.vx * np.sqrt(other.vx**2) * other.m / (2 * self.m)
+                        ay += other.vy * np.sqrt(other.vy**2) * other.m / (2 * self.m)
+                        az += other.vz * np.sqrt(other.vz**2) * other.m / (2 * self.m)
                         self.temp = (self.temp + other.temp) / 2
                         other.temp = self.temp # 计算温度
                     
@@ -90,18 +91,18 @@ def update_figure(j):
 sands = []
 g = 9.8 # 重力加速度
 
-m = 300
+m = 4000
 ty = 'aerolite'
-temp = 25000
+temp = 2500
 x, y, z, vx, vy, vz = 0, 0, 0, 0, 0, 0 - g
 s = Sand(x, y, z, vx, vy, vz, m, ty, temp)
 sands.append(s)
-for i in range(200):
-    m = np.random.uniform(0.4, 5.4)
+for i in range(800):
+    m = np.random.uniform(0.3, 1.3)
     ty = 'sand'
-    temp = np.random.uniform(12, 18)
+    temp = np.random.uniform(0.3, 1.3)
     x, y = np.random.uniform(-400, 400, size=2)
-    z = np.random.uniform(-400, -340)
+    z = np.random.uniform(-400, -370)
     vx, vy, vz = 0, 0, 0
     s = Sand(x, y, z, vx, vy, vz, m, ty, temp)
     sands.append(s)
