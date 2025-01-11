@@ -24,8 +24,8 @@ class Sand:
                     dx = other.x - self.x
                     dy = other.y - self.y
                     dz = other.z - self.z # 位置差
-                    dist = np.sqrt(dx**2+dy**2+dz**2) # 勾股定理，+1防止/0
-                    if dist < 3: # 检测碰撞
+                    dist = np.sqrt(dx**2+dy**2+dz**2) # 勾股定理
+                    if dist < 30: # 检测碰撞
                         # 计算加速度
                         ax += other.vx * np.sqrt(other.vx**2) * other.m / (2 * self.m)
                         ay += other.vy * np.sqrt(other.vy**2) * other.m / (2 * self.m)
@@ -93,7 +93,7 @@ g = 9.8 # 重力加速度
 
 m = 4000
 ty = 'aerolite'
-temp = 2500
+temp = 25000
 x, y, z, vx, vy, vz = 0, 0, 0, 0, 0, 0 - g
 s = Sand(x, y, z, vx, vy, vz, m, ty, temp)
 sands.append(s)
