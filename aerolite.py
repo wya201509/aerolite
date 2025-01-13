@@ -30,7 +30,7 @@ class Sand:
                         ax += other.vx * np.sqrt(other.vx**2) * other.m / (2 * self.m)
                         ay += other.vy * np.sqrt(other.vy**2) * other.m / (2 * self.m)
                         az += other.vz * np.sqrt(other.vz**2) * other.m / (2 * self.m)
-                        self.temp = (self.temp + other.temp) / 2
+                        self.temp = (self.temp * self.m + other.temp * other.m) / (self.m + other.m)
                         other.temp = self.temp # 计算温度
                     
         self.vx += ax * dt
@@ -89,7 +89,7 @@ def update_figure(j):
     i += 1
 
 sands = []
-g = 9.8 # 重力加速度
+g = 98 # 重力加速度
 
 m = 4000
 ty = 'aerolite'
