@@ -17,7 +17,10 @@ class Sand:
     def update(self, g, dt):
         ax = 0.0
         ay = 0.0
-        az = 0.0 - g # 加速度
+        if self.ty == 'aerolite':
+            az = 0.0 - g # 加速度
+        else:
+            az = 0.0
         for other in sands: # 遍历
             if other is not self:
                 if self.ty == 'sand':
@@ -25,7 +28,7 @@ class Sand:
                     dy = other.y - self.y
                     dz = other.z - self.z # 位置差
                     dist = np.sqrt(dx**2+dy**2+dz**2) # 勾股定理
-                    if dist < 30: # 检测碰撞
+                    if dist < 60: # 检测碰撞
                         # 计算加速度
                         ax += other.vx * np.sqrt(other.vx**2) * other.m / (2 * self.m)
                         ay += other.vy * np.sqrt(other.vy**2) * other.m / (2 * self.m)
@@ -36,14 +39,10 @@ class Sand:
         self.vx += ax * dt
         self.vy += ay * dt
         self.vz += az * dt # 计算速度
-        inScreen = \
-        -400 < self.x + self.vx * dt < 400 and \
-                -400 < self.y + self.vy * dt < 400 and \
-                -400 < self.z + self.vz * dt < 400 # 检测是否碰到屏幕边缘
-        if inScreen:
-            self.x += self.vx * dt
-            self.y += self.vy * dt
-            self.z += self.vz * dt # 计算位置
+
+        self.x += self.vx * dt
+        self.y += self.vy * dt
+        self.z += self.vz * dt # 计算位置
         self.temp -= 10 * dt
 
 def create_colorbar():
@@ -89,7 +88,7 @@ def update_figure(j):
     i += 1
 
 sands = []
-g = 98 # 重力加速度
+g = 9.8 * 10# 重力加速度
 
 m = 4000
 ty = 'aerolite'
